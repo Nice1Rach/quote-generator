@@ -28,7 +28,7 @@ async function getQuote() {
   
 
   try {
-    const response = await fetch(proxyUrl + apiUrl);
+    const response = await fetch(apiUrl);
 
     const data = await response.json();
 
