@@ -21,42 +21,48 @@
   async function getQuote() {
       showLoadingSpinner();
       const apiUrl = 'https://type.fit/api/quotes';
-      try {
-          const response = await fetch(apiUrl);
-          const data = await response.json();
-          
-          if (data.quoteAuthor === '') {
-             authorText.innerText = 'Unknown';
-          } else {
-             authorText.innerText = data.quoteAuthor;
-          }
-       
-          if (data.quoteText.length > 120) {
-             quoteText.classList.add('long-quote');
-          } else {
-              quoteText.classList.remove('long-quote');
-          }
-       
-           quoteText.innerText = data.quoteText;
-       
-           removeLoadingSpinner();
-         } catch (error) {
-           getQuote();
-           console.log('whooops, no quote', error);
-     }
+  try {
+    const response = await fetch(proxyUrl + apiUrl);
+
+    const data = await response.json();
+
+    // Check if Author field is blank and replace it with 'Unknown'
+    if (data.quoteAuthor === '') {
+      authorText.innerText = 'Unknown';
+    } else {
+      authorText.innerText = data.quoteAuthor;
+    }
+
+    //Reduce font size for long quotes
+
+    if (data.quoteText.length > 120) {
+      quoteText.classList.add('long-quote');
+    } else {
+      quoteText.classList.remove('long-quote');
+    }
+
+    quoteText.innerText = data.quoteText; //data we get from api
+
+    //Stop  loader,show quote
+    removeLoadingSpinner();
+  } catch (error) {
+    getQuote();
+    console.log('whooops,no quote', error);
   }
+}
 
- //  Tweet Quote
- function tweetQuote() {
-     const quote = quoteText.innerText;
-     const author = authorText.innerText;
-     const twitterUrl = `https://twitter.com/intent/tweet?text=${quoteText.textContent} - ${authorText.textContent}`;
-     window.open(twitterUrl, '_blank');
- }
+//Tweet Quote
+function tweetQuote() {
+  const quote = quoteText.innerText;
+  const author = authorText.innerText;
+  const twitterUrl = `https://twitter.com/intent/tweet?text=${quote} - ${author}`;
+  window.open(twitterUrl, '_blank');
+}
 
- // Event Listeners
- newQuoteBtn.addEventListener('click', getQuote);
- twitterBtn.addEventListener('click', tweetQuote);
+//Event Listeners
+newQuoteBtn.addEventListener('click', getQuote);
+twitterBtn.addEventListener('click', tweetQuote);
 
- //  On Load
- getQuote();
+//On Load
+
+getQuote();
