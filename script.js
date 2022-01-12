@@ -3,7 +3,7 @@ const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
 const newQuoteBtn = document.getElementById('new-quote');
-const loader = document.getElementById('loader')
+const loader = document.getElementById('loader');
 
 function showLoadingSpinner() {
     loader.hidden = false;
@@ -37,8 +37,11 @@ async function getQuote() {
         quoteText.innerText = data.quoteText;
         removeLoadingSpinner();
     } catch (error) {
-        getQuote();
-    }
+        if (counter < 7){
+           getQuote();
+           counter = counter + 1;
+    } else {
+        alert("Something is wrong with this page. Try again later.")
 }
 
 function tweetQuote() {
