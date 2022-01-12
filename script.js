@@ -1,26 +1,32 @@
- const quoteContainer = document.getElementById('quote-container');
- const quoteText = document.getElementById('quote');
- const authorText = document.getElementById('author');
- const twitterBtn = document.getElementById('twitter');
- const newQuoteBtn = document.getElementById('new-quote');
- const loader = document.getElementById('loader');
+const quoteContainer = document.getElementById('quote-container');
+const quoteText = document.getElementById('quote');
+const authorText = document.getElementById('author');
+const twitterBtn = document.getElementById('twitter');
+const newQuoteBtn = document.getElementById('new-quote');
+const loader = document.getElementById('loader');
 
-  // Show Loading Spinner
- function showLoadingSpinner() {
+//Show Loading Spinner
+
+function showLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
- }
+}
 
- // Hide Loading Spinner
- function removeLoadingSpinner() {
-    quoteContainer.hidden = false;
-    loader.hidden = true;
- }
+//Hide loading Spinner
 
- //  Get Quotes From API
-  async function getQuote() {
-      showLoadingSpinner();
-      const apiUrl = 'https://type.fit/api/quotes';
+function removeLoadingSpinner() {
+  if (!loader.hidden) {
+    quoteContainer.hidden = false; //show quote container
+    loader.hidden = true; //hide loader
+  }
+}
+
+//Get Quote from API
+async function getQuote() {
+  showLoadingSpinner();
+  const apiUrl = 'https://type.fit/api/quotes';
+  
+
   try {
     const response = await fetch(proxyUrl + apiUrl);
 
@@ -32,13 +38,16 @@
     } else {
       authorText.innerText = data.quoteAuthor;
     }
-      //Reduce font size for long quotes
+
+    //Reduce font size for long quotes
 
     if (data.quoteText.length > 120) {
       quoteText.classList.add('long-quote');
     } else {
       quoteText.classList.remove('long-quote');
     }
+
+    quoteText.innerText = data.quoteText; //data we get from api
 
     //Stop  loader,show quote
     removeLoadingSpinner();
