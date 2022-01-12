@@ -20,10 +20,6 @@
  }
 
  // Show New Quote
- // function newQuote() {
-       const quote = localQuotes[Math.floor(Math.random() * localQuotes.length)];
-       console.log(quote);
- }
  function newQuote() {
    loading();
     // Pick a random quote from apiQuotes array
