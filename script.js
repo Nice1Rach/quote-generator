@@ -26,10 +26,9 @@ async function getQuote() {
   showLoadingSpinner();
   const proxyUrl = 'https://enigmatic-woodland-20713.herokuapp.com/';
   const apiUrl = 'https://type.fit/api/quotes';
-  
 
   try {
-    const response = await fetch(apiUrl);
+    const response = await fetch(proxyUrl + apiUrl);
 
     const data = await response.json();
 
