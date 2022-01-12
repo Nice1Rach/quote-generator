@@ -33,16 +33,6 @@
       authorText.innerText = data.quoteAuthor;
     }
 
-    //Reduce font size for long quotes
-
-    if (data.quoteText.length > 120) {
-      quoteText.classList.add('long-quote');
-    } else {
-      quoteText.classList.remove('long-quote');
-    }
-
-    quoteText.innerText = data.quoteText; //data we get from api
-
     //Stop  loader,show quote
     removeLoadingSpinner();
   } catch (error) {
