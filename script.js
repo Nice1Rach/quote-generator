@@ -2,62 +2,50 @@ const quoteContainer = document.getElementById('quote-container');
 const quoteText = document.getElementById('quote');
 const authorText = document.getElementById('author');
 const twitterBtn = document.getElementById('twitter');
-const favoriteBtn = document.getElementById('favorite');
 const newQuoteBtn = document.getElementById('new-quote');
 const loader = document.getElementById('loader');
 
-let errorCount = 0;
-
-function showLoader() {
+function showLoadingSpinner() {
   loader.hidden = false;
   quoteContainer.hidden = true;
 }
 
-function hideLoader() {
+function removeLoadingSpinner() {
   if (!loader.hidden) {
-    loader.hidden = true;
     quoteContainer.hidden = false;
+    loader.hidden = true;
   }
 }
 
-// Get quote from api
+// Get Quote From API
 async function getQuote() {
-  showLoader();
-  // Proxy URL to make our API call in order to avoid a CORS error
+  showLoadingSpinner();
   const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-  const apiUrl =
-    'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
-
+  const apiUrl = 'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
   try {
     const response = await fetch(proxyUrl + apiUrl);
     const data = await response.json();
-    // If there is no author, display "Unknown" as author
+    // If author blank, add 'Unknown'
     if (data.quoteAuthor === '') {
-      authorText.innerText = 'Unknown';
+      authorText.innerHTML = 'Unknown';
     } else {
       authorText.innerText = data.quoteAuthor;
     }
-    // If quote is too long, add class to decrease font size
-    if (data.quoteText.length < 120) {
+    // Reduce font size for long quotes
+    if (data.quoteText.length > 120) {
       quoteText.classList.add('long-quote');
     } else {
       quoteText.classList.remove('long-quote');
     }
-
     quoteText.innerText = data.quoteText;
-
-    hideLoader();
-  } catch (err) {
-    errorCount++
-    if(errorCount < 5){
-      getQuote();
-    }else {
-      errorCount = 0;
-      console.log('Whoops no quote', err);
-    }
+    removeLoadingSpinner();
+  } catch (error) {
+    getQuote();
+    console.log(error);
   }
 }
 
+// Tweet Quote
 function tweetQuote() {
   const quote = quoteText.innerText;
   const author = authorText.innerText;
@@ -68,6 +56,5 @@ function tweetQuote() {
 // Event Listeners
 newQuoteBtn.addEventListener('click', getQuote);
 twitterBtn.addEventListener('click', tweetQuote);
-
 // On Load
 getQuote();
