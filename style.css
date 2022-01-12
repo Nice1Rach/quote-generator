@@ -46,6 +46,7 @@ body {
     font-size: 2rem;
     font-weight: 400;
     font-style: italic;
+    color: hsl(342 75% 70% / 1);
 }
 
 .button-container {
