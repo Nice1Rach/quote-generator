@@ -25,7 +25,9 @@ function removeLoadingSpinner() {
 async function getQuote() {
   showLoadingSpinner();
   const proxyUrl = 'https://enigmatic-woodland-20713.herokuapp.com/';
-  const apiUrl = 'https://type.fit/api/quotes';
+  const apiUrl =
+    'http://api.forismatic.com/api/1.0/?method=getQuote&lang=en&format=json';
+  //const apiUrl = 'https://type.fit/api/quotes';
 
   try {
     const response = await fetch(proxyUrl + apiUrl);
